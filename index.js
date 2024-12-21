@@ -1,12 +1,13 @@
 const express = require("express");
 const path = require("path");
+require("dotenv").config();
 
 const { connect } = require("./connection");
 
 const router = require("./routes/url");
 const staticRouter = require("./routes/staticRoute");
 
-connect("mongodb+srv://student:student@cluster0.bgpax.mongodb.net/shortURL?retryWrites=true&w=majority&appName=Cluster0")
+connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@cluster0.bgpax.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority&appName=Cluster0`)
     .then(() => console.log("MongoDB connected"))
     .catch((err) => console.log(`Error while connecting ${err}`));
 
