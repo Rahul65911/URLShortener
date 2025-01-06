@@ -1,11 +1,10 @@
-const URL = require("../models/url");
+const {URL} = require("../models/url");
 const shortid = require("shortid");
 const geoip = require('geoip-lite');
 const useragent = require('useragent');
 
 const handleGenerateShortURL = async (req, res) => {
   const body = req.body;
-  console.log(body.url);
   if (!body.url) {
     return res.status(400).json({ error: "URL is required!!!" });
   }
@@ -29,12 +28,14 @@ const handleGenerateShortURL = async (req, res) => {
     }
     
     try {
+      console.log(req.user.id);
       let newURL = new URL({
         shortId: shortId1,
         redirectURL: body.url,
+        createdBy: req.user.id,
         visitHistory: [],
       });
-      console.log(newURL)
+      
       newURL.save().then(() => {
         console.log("saved");
       })
