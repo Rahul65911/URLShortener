@@ -1,6 +1,5 @@
 const {URL} = require("../models/url");
 const shortid = require("shortid");
-const geoip = require('geoip-lite');
 const useragent = require('useragent');
 const path = require('path');
 
@@ -53,13 +52,6 @@ const handleGenerateShortURL = async (req, res) => {
   }
 };
 
-function getLocation(ip) {
-  const dataPath = path.join(__dirname, 'data');
-  geoip.reloadDataSync(dataPath);
-  const geo = geoip.lookup(ip);
-  return geo ? { country: geo.country, city: geo.city } : { country: 'Unknown', city: 'Unknown' };
-}
-
 function getDevice(userAgentString) {
   const agent = useragent.parse(userAgentString);
   if (agent.device.family === 'iPhone' || agent.device.family === 'Android') {
@@ -82,7 +74,6 @@ const handleGetIdRequest = async (req, res) => {
       $push: {
         visitHistory: {
           timeStamp: Date.now(),
-          location: getLocation(req.ip),
           device: getDevice(req.headers['user-agent']),
           referrer: req.get('Referrer') || 'Direct'
         },

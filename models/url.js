@@ -14,11 +14,7 @@ const URLSchema = new mongoose.Schema({
         ref: "User",
     },
     visitHistory: [{ 
-        timeStamp: {type: Date}, 
-        location: {
-            country: String,
-            city: String
-        },
+        timeStamp: {type: Date},
         device: String,
         referrer: String 
     }],
