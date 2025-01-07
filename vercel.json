@@ -6,6 +6,11 @@
             "use": "@vercel/node"
         }
     ],
+    "functions": {
+        "index.js": {
+            "includeFiles": ["node_modules/geoip-lite/data/**/*"]
+        }
+    },
     "routes": [
         {
             "src": "/(.*)",
