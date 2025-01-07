@@ -2,6 +2,7 @@ const {URL} = require("../models/url");
 const shortid = require("shortid");
 const geoip = require('geoip-lite');
 const useragent = require('useragent');
+const path = require('path');
 
 const handleGenerateShortURL = async (req, res) => {
   const body = req.body;
@@ -53,6 +54,8 @@ const handleGenerateShortURL = async (req, res) => {
 };
 
 function getLocation(ip) {
+  const dataPath = path.join(__dirname, 'data');
+  geoip.reloadDataSync(dataPath);
   const geo = geoip.lookup(ip);
   return geo ? { country: geo.country, city: geo.city } : { country: 'Unknown', city: 'Unknown' };
 }
